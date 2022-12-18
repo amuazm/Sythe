@@ -1,0 +1,4 @@
+name: ScytheHook
+version: '${project.version}'
+main: me.amuazm.scythehook.ScytheHook
+api-version: 1.19
