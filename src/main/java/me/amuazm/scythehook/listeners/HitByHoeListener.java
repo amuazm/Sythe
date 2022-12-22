@@ -46,13 +46,12 @@ public class HitByHoeListener implements Listener {
             // I don't know why this is the most fun. I don't know why normalizing the vector works. But I learnt from Source Engine that if a bug is fun, only limit its brokenness but keep the bug.
             Vector hookDir = hookedByLoc.subtract(toHookLoc).toVector();
             hookDir.normalize();
-            hookDir.multiply(1.2);
+            hookDir.multiply(3);
 
             // Y Limiter
             hookDir.setY(Math.min(hookDir.getY(), 1.0));
 
             toHook.setVelocity(hookDir);
-            hookedBy.setVelocity(hookDir.multiply(-1));
         }
     }
 }
