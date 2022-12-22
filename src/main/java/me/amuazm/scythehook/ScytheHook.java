@@ -1,5 +1,8 @@
 package me.amuazm.scythehook;
 
+import me.amuazm.scythehook.commands.HoeMobCommand;
+import me.amuazm.scythehook.commands.HoeWarCommand;
+import me.amuazm.scythehook.listeners.HitByHoeListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ScytheHook extends JavaPlugin {
@@ -8,6 +11,8 @@ public final class ScytheHook extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         getServer().getPluginManager().registerEvents(new HitByHoeListener(), this);
+        getCommand("hoemob").setExecutor(new HoeMobCommand());
+        getCommand("hoewar").setExecutor(new HoeWarCommand());
     }
 
 }

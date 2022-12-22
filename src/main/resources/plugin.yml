@@ -2,3 +2,10 @@ name: ScytheHook
 version: '${project.version}'
 main: me.amuazm.scythehook.ScytheHook
 api-version: 1.19
+commands:
+  hoemob:
+    description: Summons a mob holding an iron hoe.
+    usage: /hoemob <mob>
+  hoewar:
+    description: Summons an immortal wither skeleton and piglin holding iron hoes.
+    usage: /hoewar
