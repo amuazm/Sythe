@@ -5,6 +5,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -55,5 +56,10 @@ public class HitByHoeListener implements Listener {
 
             toHook.setVelocity(hookDir);
         }
+    }
+
+    @EventHandler
+    public void onBreakByHoe(BlockBreakEvent e) {
+        // TODO: Clear grass 5x5
     }
 }
