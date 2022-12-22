@@ -4,17 +4,13 @@ import me.amuazm.scythehook.ScytheHook;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +51,10 @@ public class ChainListener implements Listener {
                 double eX = Math.floor(eLoc.getX());
                 double eY = Math.floor(eLoc.getY());
                 double eZ = Math.floor(eLoc.getZ());
-                // l/L - Leniency
+                // This looks like a monster, but it's not that bad.
+                // Just gets the coords around a central coord, one-by-one, cube style.
+                // l - Leniency. Allows for hooking in entities even if you aim not directly at the entity.
+                // e.g. l = 2 means you can hook in the entity even if you are aiming 2 blocks away from it
                 int l = 2;
                 for (int iX = -l; iX <= l; iX++) {
                     double lX = eX + iX;
@@ -76,6 +75,7 @@ public class ChainListener implements Listener {
 //                        hookDir.setY(Math.min(hookDir.getY(), 1.0));
                                 // Velocity
                                 entity.setVelocity(hookDir);
+                                // TODO: Check how grapplinghook hooks in entities
 
 //                        Bukkit.broadcastMessage("");
 //                        Bukkit.broadcastMessage("" + bX + " : " + eX + " : " + (bX == eX));
