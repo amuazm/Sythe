@@ -30,13 +30,15 @@ public class HitByHoeListener implements Listener {
             e.setDamage(dmgMod);
             // Debug
             String s = "";
-            s += "\nOriginal Damage = " + dmgOrg;
-            s += "\nSpeed = " + hookedBySpeed;
-            s += "\nMultiplied = " + dmgMod;
+//            s += "\nOriginal Damage = " + dmgOrg;
+//            s += "\nSpeed = " + hookedBySpeed;
+//            s += "\nMultiplied = " + dmgMod;
+//            s += "Damage: " + (Math.round(dmgMod/2*10)/10);
+            s += "Damage: " + ((Math.round(dmgMod/2*10))/10.0) + " hearts.";
             Bukkit.broadcastMessage(s);
 
             // Sound
-            hookedBy.getWorld().playSound(hookedBy, Sound.BLOCK_NOTE_BLOCK_BELL, Math.min((float) dmgMod, 1F), (float) dmgMod);
+            hookedBy.getWorld().playSound(hookedBy, Sound.BLOCK_BEEHIVE_SHEAR, Math.min((float) dmgMod, 1F), (float) dmgMod);
 
             // Particles
             ItemStack itemCrackData = new ItemStack(Material.REDSTONE_BLOCK);
