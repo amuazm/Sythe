@@ -12,6 +12,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ChainListener implements Listener {
@@ -40,9 +41,11 @@ public class ChainListener implements Listener {
         transparent.add(Material.TALL_GRASS);
         transparent.add(Material.WATER);
         int range = 50;
+        List<Block> blocks = p.getLineOfSight(transparent, range);
+        List<Entity> entities = p.getNearbyEntities(range, range, range);
         eSearch:
-        for (Block b : p.getLineOfSight(transparent, range)) {
-            for (Entity entity : p.getNearbyEntities(range, range, range)) {
+        for (Block b : blocks) {
+            for (Entity entity : entities) {
                 Location bLoc = b.getLocation();
                 Location eLoc = entity.getLocation();
                 double bX = bLoc.getX();
@@ -51,7 +54,7 @@ public class ChainListener implements Listener {
                 double eX = Math.floor(eLoc.getX());
                 double eY = Math.floor(eLoc.getY());
                 double eZ = Math.floor(eLoc.getZ());
-                // This looks like a monster, but it's not that bad.
+                // This looks like a monster, but it's not that bad. Ok maybe.
                 // Just gets the coords around a central coord, one-by-one, cube style.
                 // l - Leniency. Allows for hooking in entities even if you aim not directly at the entity.
                 // e.g. l = 2 means you can hook in the entity even if you are aiming 2 blocks away from it
