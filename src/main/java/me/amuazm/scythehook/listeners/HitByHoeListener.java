@@ -25,6 +25,7 @@ public class HitByHoeListener implements Listener {
             Location hookedByLoc = hookedBy.getLocation();
 
             // Damage multiplier
+            // TODO: Better damage multiplier that rewards combo hits
             double hookedBySpeed = toHook.getVelocity().length();
             double dmgOrg = e.getDamage();
             double dmgMod = dmgOrg * (hookedBySpeed / 0.0784);
@@ -46,7 +47,6 @@ public class HitByHoeListener implements Listener {
             world.spawnParticle(Particle.ITEM_CRACK, toHookLoc, (int) dmgMod * 10, itemCrackData);
 
             // Hook Velocity
-            // I don't know why this is the most fun. I don't know why normalizing the vector works. But I learnt from Source Engine that if a bug is fun, only limit its brokenness but keep the bug.
             Vector hookDir = hookedByLoc.subtract(toHookLoc).toVector();
             hookDir.normalize();
             hookDir.multiply(3);

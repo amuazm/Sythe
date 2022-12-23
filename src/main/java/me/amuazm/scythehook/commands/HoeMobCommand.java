@@ -1,6 +1,5 @@
 package me.amuazm.scythehook.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,6 +15,7 @@ public class HoeMobCommand implements CommandExecutor {
                 String mob = args[0];
                 p.performCommand("summon minecraft:" + mob + " ~ ~ ~ {HandItems:[{Count:1,id:iron_hoe},{}]}");
             }
+            // TODO: Look into args suggestion of grapplinghook
         }
         return true;
     }
