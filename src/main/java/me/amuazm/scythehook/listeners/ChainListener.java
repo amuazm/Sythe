@@ -1,6 +1,5 @@
 package me.amuazm.scythehook.listeners;
 
-import me.amuazm.scythehook.ScytheHook;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -31,10 +30,18 @@ public class ChainListener implements Listener {
         }
         e.setCancelled(true);
 
-        Location pLoc = p.getEyeLocation();
-        Vector v = pLoc.getDirection();
-        Predicate<Entity> filter = entity -> (entity != p);
-        RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
+        final Location pLoc = p.getEyeLocation();
+        final Vector v = pLoc.getDirection();
+        final Predicate<Entity> filter = entity -> (entity != p);
+        final RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
+        if (r == null) {
+            Bukkit.broadcastMessage("No ray");
+            return;
+        }
+        if (r.getHitEntity() == null) {
+            Bukkit.broadcastMessage("No entity");
+            return;
+        }
         Entity entity = r.getHitEntity();
 
         // Code to run
