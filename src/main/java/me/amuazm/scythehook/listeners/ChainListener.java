@@ -1,5 +1,6 @@
 package me.amuazm.scythehook.listeners;
 
+import me.amuazm.scythehook.ScytheHook;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -13,6 +14,8 @@ import org.bukkit.util.Vector;
 import java.util.function.Predicate;
 
 public class ChainListener implements Listener {
+    ScytheHook plugin = ScytheHook.getPlugin(ScytheHook.class);
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -35,11 +38,9 @@ public class ChainListener implements Listener {
         final Predicate<Entity> filter = entity -> (entity != p);
         final RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
         if (r == null) {
-            Bukkit.broadcastMessage("No ray");
             return;
         }
         if (r.getHitEntity() == null) {
-            Bukkit.broadcastMessage("No entity");
             return;
         }
         Entity entity = r.getHitEntity();
@@ -49,9 +50,34 @@ public class ChainListener implements Listener {
         p.playSound(p.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1);
 
         // Zoom
-        Vector hookDir = p.getLocation().subtract(entity.getLocation()).toVector();
-        hookDir.multiply(0.25);
-        entity.setVelocity(hookDir);
-        // TODO: Check how grapplinghook hooks in entities
+//        Vector hookDir = p.getLocation().subtract(entity.getLocation()).toVector();
+//        hookDir.multiply(0.25);
+//        entity.setVelocity(hookDir);
+        pullEntityToLocation(entity, p.getLocation(), 1.0);
+    }
+
+    //better method for pulling COPIED FROM GRAPPLING HOOK
+    private void pullEntityToLocation(final Entity entity, Location loc, double multiply){
+        Location entityLoc = entity.getLocation();
+
+        Vector boost = entity.getVelocity();
+        boost.setY(0.3);
+        entity.setVelocity(boost);
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            double g = -0.08;
+            double d = loc.distance(entityLoc);
+            double t = d;
+            double v_x = (1.0+0.07*t) * (loc.getX()-entityLoc.getX())/t;
+            double v_y = (1.0+0.03*t) * (loc.getY()-entityLoc.getY())/t -0.5*g*t;
+            double v_z = (1.0+0.07*t) * (loc.getZ()-entityLoc.getZ())/t;
+
+            Vector v = entity.getVelocity();
+            v.setX(v_x);
+            v.setY(v_y);
+            v.setZ(v_z);
+            v.multiply(multiply);
+            entity.setVelocity(v);
+        }, 1L);
     }
 }
