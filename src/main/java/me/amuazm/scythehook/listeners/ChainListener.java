@@ -50,9 +50,6 @@ public class ChainListener implements Listener {
         p.playSound(p.getLocation(), Sound.BLOCK_CHAIN_PLACE, 1, 1);
 
         // Zoom
-//        Vector hookDir = p.getLocation().subtract(entity.getLocation()).toVector();
-//        hookDir.multiply(0.25);
-//        entity.setVelocity(hookDir);
         pullEntityToLocation(entity, p.getLocation(), 1.0);
     }
 
@@ -68,9 +65,12 @@ public class ChainListener implements Listener {
             double g = -0.08;
             double d = loc.distance(entityLoc);
             double t = d;
-            double v_x = (1.0+0.07*t) * (loc.getX()-entityLoc.getX())/t;
-            double v_y = (1.0+0.03*t) * (loc.getY()-entityLoc.getY())/t -0.5*g*t;
-            double v_z = (1.0+0.07*t) * (loc.getZ()-entityLoc.getZ())/t;
+            // speed = distance / time
+            // distance = (100 + 7 * blockstotravel)% * axis distance
+            // time = blockstotravel
+            double v_x = (1.0+0.07*t) * (loc.getX()-entityLoc.getX()) / t;
+            double v_y = (1.0+0.03*t) * (loc.getY()-entityLoc.getY()) / t - 0.5*g*t;
+            double v_z = (1.0+0.07*t) * (loc.getZ()-entityLoc.getZ()) / t;
 
             Vector v = entity.getVelocity();
             v.setX(v_x);
