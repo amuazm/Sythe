@@ -34,7 +34,7 @@ public class ChainListener implements Listener {
         }
         e.setCancelled(true);
 
-        // TODO: Cooldown
+        // TODO: Cooldownw
 
         final Location pLoc = p.getEyeLocation();
         final Vector v = pLoc.getDirection();
