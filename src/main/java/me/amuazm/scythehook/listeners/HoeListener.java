@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class HitByHoeListener implements Listener {
+public class HoeListener implements Listener {
     @EventHandler
     public void onHitByHoe(EntityDamageByEntityEvent e) {
         Entity toHook = e.getEntity();
