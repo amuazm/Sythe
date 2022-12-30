@@ -34,12 +34,13 @@ public class ChainListener implements Listener {
         }
         e.setCancelled(true);
 
-        // TODO: Cooldownw
+        // TODO: Cooldown
 
         final Location pLoc = p.getEyeLocation();
         final Vector v = pLoc.getDirection();
         final Predicate<Entity> filter = entity -> (entity != p);
-        final RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 15, 2, filter);
+        // TODO: Change distance to 15
+        final RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
         if (r == null || r.getHitEntity() == null) {
             p.playSound(pLoc, Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
             return;
@@ -77,7 +78,8 @@ public class ChainListener implements Listener {
         }
 
         // Zoom
-        pullEntityToLocation(entity, p.getLocation(), 1.0);
+        pullEntityToLocation(p, entity.getLocation(), 1.0);
+//        pullEntityToLocation(entity, p.getLocation(), 1.0);
 
         // TODO: durability
     }
