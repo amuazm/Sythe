@@ -16,6 +16,7 @@ import java.util.function.Predicate;
 
 public class ChainListener implements Listener {
     ScytheHook plugin = ScytheHook.getPlugin(ScytheHook.class);
+    private boolean gamer_mode = true;
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
@@ -39,18 +40,38 @@ public class ChainListener implements Listener {
         final Location pLoc = p.getEyeLocation();
         final Vector v = pLoc.getDirection();
         final Predicate<Entity> filter = entity -> (entity != p);
-        // TODO: Change distance to 15
-        final RayTraceResult r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
-        if (r == null || r.getHitEntity() == null) {
-            p.playSound(pLoc, Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
-            return;
-        }
-        final Entity entity = r.getHitEntity();
+        RayTraceResult r;
         final Location eLoc;
-        if (entity instanceof LivingEntity) {
-            eLoc = ((LivingEntity) entity).getEyeLocation();
+        // gamer_mode false - hooks to entities
+        // gamer_mode true - hooks to blocks
+        if (!gamer_mode) {
+            // get ray
+            r = p.getWorld().rayTraceEntities(pLoc, v, 50, 2, filter);
+            // check ray
+            if (r == null || r.getHitEntity() == null) {
+                // no ray feedback
+                p.playSound(pLoc, Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+                return;
+            } else {
+                // get location to hook to
+                final Entity entity = r.getHitEntity();
+                if (entity instanceof LivingEntity livingEntity) {
+                    eLoc = livingEntity.getEyeLocation();
+                } else {
+                    eLoc = entity.getLocation();
+                }
+            }
         } else {
-            eLoc = entity.getLocation();
+            // get ray
+            r = p.getWorld().rayTraceBlocks(pLoc, v, 50);
+            if (r == null || r.getHitBlock() == null) {
+                // no ray feedback
+                p.playSound(pLoc, Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+                return;
+            } else {
+                // get location to hook to
+                eLoc = r.getHitBlock().getLocation();
+            }
         }
 
         // Code to run
@@ -70,15 +91,15 @@ public class ChainListener implements Listener {
         for (double i = 0; i <= distance; i += (1 / particles_per_block)) {
             p.spawnParticle(
                     Particle.REDSTONE,
-                    x + x_interval*i,
-                    y + y_interval*i,
-                    z + z_interval*i,
+                    x + x_interval * i,
+                    y + y_interval * i,
+                    z + z_interval * i,
                     1,
                     dustOptions);
         }
 
         // Zoom
-        pullEntityToLocation(p, entity.getLocation(), 1.0);
+        pullEntityToLocation(p, eLoc, 1.0);
 //        pullEntityToLocation(entity, p.getLocation(), 1.0);
 
         // TODO: durability
