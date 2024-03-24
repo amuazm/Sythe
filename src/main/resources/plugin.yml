@@ -1,0 +1,12 @@
+name: Sythe
+version: '${version}'
+main: me.amuazm.sythe.Sythe
+api-version: '1.20'
+folia-supported: true
+commands:
+  hoemob:
+    description: Summons a mob holding an iron hoe.
+    usage: /hoemob <mob>
+  hoewar:
+    description: Summons an immortal wither skeleton and piglin holding iron hoes.
+    usage: /hoewar
